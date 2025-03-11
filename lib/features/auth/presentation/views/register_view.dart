@@ -1,11 +1,9 @@
 import 'package:e_commercy/core/utils/app_colors.dart';
-import 'package:e_commercy/core/utils/app_router.dart';
 import 'package:e_commercy/core/utils/assets_data.dart';
 import 'package:e_commercy/core/utils/constants.dart';
 import 'package:e_commercy/core/utils/screen_size.dart';
 import 'package:e_commercy/core/utils/show_snack_bar.dart';
 import 'package:e_commercy/core/utils/styles.dart';
-import 'package:e_commercy/features/auth/data/models/user_model.dart';
 import 'package:e_commercy/features/auth/presentation/cubits/auth_cubit/auth_cubit.dart';
 import 'package:e_commercy/features/auth/presentation/views/verify_email_view.dart';
 import 'package:e_commercy/features/auth/presentation/views/widgets/auth_button.dart';
@@ -13,7 +11,6 @@ import 'package:e_commercy/features/auth/presentation/views/widgets/custom_text_
 import 'package:e_commercy/features/splash/presentation/views/widgets/already_have_an_account_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -159,11 +156,9 @@ class _RegisterViewState extends State<RegisterView> {
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             authCubit.signup(
-                              user: UserModel(
-                                name: _nameController.text,
-                                email: _emailController.text,
-                                password: _passwordController.text,
-                              ),
+                              name: _nameController.text,
+                              email: _emailController.text,
+                              password: _passwordController.text,
                             );
                           }
                         },

@@ -1,7 +1,6 @@
 import 'package:e_commercy/features/auth/presentation/cubits/auth_cubit/auth_cubit.dart';
 import 'package:e_commercy/features/auth/presentation/views/login_view.dart';
 import 'package:e_commercy/features/auth/presentation/views/register_view.dart';
-import 'package:e_commercy/features/auth/presentation/views/verify_email_view.dart';
 import 'package:e_commercy/features/home/presentation/views/home_view.dart';
 import 'package:e_commercy/features/splash/presentation/views/splash_view.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

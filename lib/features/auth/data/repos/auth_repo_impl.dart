@@ -11,14 +11,15 @@ class AuthRepoImpl extends AuthRepo {
   AuthRepoImpl(this.dioHelper);
   final DioHelper dioHelper;
   @override
-  Future<Either> signup({required UserModel user}) async {
+  Future<Either> signup({
+    required String name,
+    required String email,
+    required String password,
+  }) async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
-            email: user.email,
-            password: user.password,
-          );
-
+          .createUserWithEmailAndPassword(email: email, password: password);
+      final user = UserModel(name: name, email: email);
       await FirebaseFirestore.instance
           .collection(Strings.usersCollection)
           .doc(userCredential.user!.uid)

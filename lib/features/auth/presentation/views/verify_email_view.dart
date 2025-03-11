@@ -1,13 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commercy/core/utils/app_colors.dart';
 import 'package:e_commercy/core/utils/app_router.dart';
 import 'package:e_commercy/core/utils/constants.dart';
 import 'package:e_commercy/core/utils/show_snack_bar.dart';
-import 'package:e_commercy/core/utils/strings.dart';
 import 'package:e_commercy/core/utils/styles.dart';
 import 'package:e_commercy/features/auth/presentation/cubits/auth_cubit/auth_cubit.dart';
 import 'package:e_commercy/features/auth/presentation/views/widgets/auth_button.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
