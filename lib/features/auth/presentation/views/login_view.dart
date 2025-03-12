@@ -2,10 +2,12 @@ import 'package:e_commercy/core/utils/app_colors.dart';
 import 'package:e_commercy/core/utils/constants.dart';
 import 'package:e_commercy/core/utils/screen_size.dart';
 import 'package:e_commercy/core/utils/styles.dart';
+import 'package:e_commercy/features/auth/presentation/cubits/auth_cubit/auth_cubit.dart';
 import 'package:e_commercy/features/auth/presentation/views/widgets/auth_button.dart';
 import 'package:e_commercy/features/auth/presentation/views/widgets/custom_text_form_field.dart';
 import 'package:e_commercy/features/splash/presentation/views/widgets/donnot_have_an_account_row.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -36,6 +38,7 @@ class _RegisterViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
+    var authCubit = context.read<AuthCubit>();
     return Scaffold(
       appBar: AppBar(title: const Text('Sign In')),
       body: Padding(
@@ -67,39 +70,72 @@ class _RegisterViewState extends State<LoginView> {
                   keyboardType: TextInputType.emailAddress,
                 ),
                 sizedBoxHeight20,
-                CustomTextFormField(
-                  labelText: 'Password',
-                  hintText: 'Create a password',
-                  prefixIcon: Icon(Icons.lock),
-                  controller: _passwordController,
-                  obscureText: true,
-                  textInputAction: TextInputAction.done,
+                /*BlocBuilder<AuthCubit, AuthState>(
+                  builder: (context, state) {
+                    return CustomTextFormField(
+                      contentPadding: EdgeInsets.fromLTRB(12, 8.0, 12, 8.0),
+                      labelText: 'Password',
+                      hintText: 'Create a password',
+                      prefixIcon: Icon(Icons.lock),
+                      controller: _passwordController,
+                      obscureText: authCubit.obscureText,
+                      suffix: IconButton(
+                        padding: EdgeInsets.zero,
+                        onPressed: () {
+                          authCubit.toggleobsecureText();
+                        },
+                        icon:
+                            authCubit.obscureText
+                                ? Icon(Icons.remove_red_eye)
+                                : Icon(Icons.remove_red_eye_outlined),
+                      ),
+                    );
+                  },
+                ),
+                */
+                BlocBuilder<AuthCubit, AuthState>(
+                  buildWhen:
+                      (previous, current) => current is ObsecureTextToggled,
+                  builder: (context, state) {
+                    return CustomTextFormField(
+                      onFieldSubmitted: (value) {
+                        authCubit.obscureText = true;
+                      },
+                      contentPadding: EdgeInsets.fromLTRB(12, 8.0, 12, 8.0),
+                      labelText: 'Password',
+                      hintText: 'Enter your password',
+                      prefixIcon: Icon(Icons.lock),
+                      controller: _passwordController,
+                      obscureText: authCubit.obscureText,
+                      textInputAction: TextInputAction.done,
+                      suffix: IconButton(
+                        padding: EdgeInsets.zero,
+                        onPressed: () {
+                          authCubit.toggleobsecureText();
+                        },
+                        icon:
+                            authCubit.obscureText
+                                ? Icon(Icons.remove_red_eye)
+                                : Icon(Icons.remove_red_eye_outlined),
+                      ),
+                    );
+                  },
                 ),
                 sizedBoxHeight10,
 
-                Row(
-                  children: [
-                    Checkbox(
-                      value: true,
-                      activeColor: AppColors.blueColor,
-                      onChanged: (value) {
-                        // waiting to handle with bloc
-                      },
-                    ),
-                    Text('Remember me', style: Styles.textStyle16),
-                    const Spacer(),
-                    TextButton(
-                      onPressed: () {
-                        // waiting to handle with bloc
-                      },
-                      child: Text(
-                        'Forgot Password?',
-                        style: Styles.textStyle16.copyWith(
-                          color: AppColors.blueColor,
-                        ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () {
+                      // waiting to handle with bloc
+                    },
+                    child: Text(
+                      'Forgot Password?',
+                      style: Styles.textStyle16.copyWith(
+                        color: AppColors.blueColor,
                       ),
                     ),
-                  ],
+                  ),
                 ),
                 sizedBoxHeight10,
                 AuthButton(text: 'Sign In', onPressed: () {}),

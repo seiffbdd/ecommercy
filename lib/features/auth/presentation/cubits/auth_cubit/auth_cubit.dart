@@ -66,7 +66,7 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  bool obscureText = false;
+  bool obscureText = true;
   void toggleobsecureText() {
     obscureText = !obscureText;
     emit(ObsecureTextToggled());

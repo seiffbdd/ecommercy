@@ -15,6 +15,7 @@ class CustomTextFormField extends StatelessWidget {
     this.validator,
     this.suffix,
     this.contentPadding,
+    this.onFieldSubmitted,
   });
   final String? labelText;
   final String? hintText;
@@ -26,11 +27,12 @@ class CustomTextFormField extends StatelessWidget {
   final TextInputType keyboardType;
   final String? Function(String?)? validator;
   final EdgeInsetsGeometry? contentPadding;
-
+  final void Function(String)? onFieldSubmitted;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
+      onFieldSubmitted: onFieldSubmitted,
       style: Styles.textStyle20,
       textInputAction: textInputAction,
       keyboardType: keyboardType,

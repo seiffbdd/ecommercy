@@ -109,8 +109,14 @@ class _RegisterViewState extends State<RegisterView> {
                       ),
                       sizedBoxHeight20,
                       BlocBuilder<AuthCubit, AuthState>(
+                        buildWhen:
+                            (previous, current) =>
+                                current is ObsecureTextToggled,
                         builder: (context, state) {
                           return CustomTextFormField(
+                            onFieldSubmitted: (value) {
+                              authCubit.obscureText = true;
+                            },
                             contentPadding: EdgeInsets.fromLTRB(
                               12,
                               8.0,

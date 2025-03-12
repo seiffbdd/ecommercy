@@ -45,10 +45,8 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
             text: 'Email verified successfully',
             color: AppColors.greenColor,
           );
-          while (context.canPop()) {
-            context.pop();
-          }
-          GoRouter.of(context).push(AppRouter.kHomeView);
+
+          GoRouter.of(context).go(AppRouter.kHomeView);
         }
       },
       child: Scaffold(
