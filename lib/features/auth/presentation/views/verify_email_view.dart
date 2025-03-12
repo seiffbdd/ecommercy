@@ -42,9 +42,12 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
         if (state is EmailVerifiedSuccess) {
           showSnackBar(
             context,
-            text: 'Email verified successfilly',
+            text: 'Email verified successfully',
             color: AppColors.greenColor,
           );
+          while (context.canPop()) {
+            context.pop();
+          }
           GoRouter.of(context).push(AppRouter.kHomeView);
         }
       },

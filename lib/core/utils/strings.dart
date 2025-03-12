@@ -1,6 +1,7 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 abstract class Strings {
-  static const String apiKey =
-      'Bearer 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';
+  static String apiKey = dotenv.env['API_KEY']!;
   static const String sendGridBaseUrl = 'https://api.sendgrid.com/';
   static const String sendGridEndPoint = 'v3/mail/send';
 
