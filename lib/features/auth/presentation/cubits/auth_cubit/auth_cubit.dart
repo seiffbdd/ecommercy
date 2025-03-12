@@ -28,14 +28,36 @@ class AuthCubit extends Cubit<AuthState> {
 
       response.fold(
         (error) {
-          emit(RegisterFailed(message: error.toString()));
+          emit(RegisterFailed(errMessage: error.toString()));
         },
         (data) {
           emit(Registersuccess());
         },
       );
     } catch (e) {
-      emit(RegisterFailed(message: e.toString()));
+      emit(RegisterFailed(errMessage: e.toString()));
+    }
+  }
+
+  Future<void> login({required String email, required String password}) async {
+    emit(LoginLoading());
+
+    try {
+      final Either response = await getIt<AuthRepo>().login(
+        email: email,
+        password: password,
+      );
+
+      response.fold(
+        (error) {
+          emit(LoginFailed(errMessage: error.toString()));
+        },
+        (data) {
+          emit(Loginsuccess());
+        },
+      );
+    } catch (e) {
+      emit(RegisterFailed(errMessage: e.toString()));
     }
   }
 

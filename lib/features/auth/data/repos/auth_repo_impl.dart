@@ -34,6 +34,28 @@ class AuthRepoImpl extends AuthRepo {
   }
 
   @override
+  Future<Either> login({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+
+      return Right('User signed in successfully');
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'invalid-credential') {
+        return left('Invalid email or password');
+      } else if (e.code == 'user-token-expired') {
+        return left('This email is nolonger authenticated');
+      }
+      return Left(e.code.replaceAll('-', ' '));
+    } catch (e) {
+      return Left('Opps! An error occurred, please try  again later');
+    }
+  }
+
+  @override
   Future sendVerificationCode({
     required String recepientEmail,
     String? recepientName,

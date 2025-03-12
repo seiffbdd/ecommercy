@@ -13,5 +13,7 @@ abstract class AuthRepo {
     String? verificationCode,
   });
 
+  Future<Either> login({required String email, required String password});
+
   Future<void> verifyEmail();
 }

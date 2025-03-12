@@ -7,6 +7,7 @@ import 'package:e_commercy/core/utils/styles.dart';
 import 'package:e_commercy/features/auth/presentation/cubits/auth_cubit/auth_cubit.dart';
 import 'package:e_commercy/features/auth/presentation/views/verify_email_view.dart';
 import 'package:e_commercy/features/auth/presentation/views/widgets/auth_button.dart';
+import 'package:e_commercy/features/auth/presentation/views/widgets/center_progress_indicator_with_stack.dart';
 import 'package:e_commercy/features/auth/presentation/views/widgets/custom_text_form_field.dart';
 import 'package:e_commercy/features/splash/presentation/views/widgets/already_have_an_account_row.dart';
 import 'package:flutter/material.dart';
@@ -68,7 +69,11 @@ class _RegisterViewState extends State<RegisterView> {
           );
         }
         if (state is RegisterFailed) {
-          showSnackBar(context, text: state.message, color: AppColors.redColor);
+          showSnackBar(
+            context,
+            text: state.errMessage,
+            color: AppColors.redColor,
+          );
         }
       },
       child: Scaffold(
@@ -200,14 +205,7 @@ class _RegisterViewState extends State<RegisterView> {
             BlocBuilder<AuthCubit, AuthState>(
               builder: (context, state) {
                 if (state is RegisterLoading) {
-                  return Container(
-                    color: Colors.black.withValues(
-                      alpha: 0.5,
-                    ), // Transparent black background
-                    child: Center(
-                      child: CircularProgressIndicator(), // Loading Indicator
-                    ),
-                  );
+                  return CenterProgressIndicatorWithStack();
                 }
                 return SizedBox.shrink(); // Hide if not loading
               },
