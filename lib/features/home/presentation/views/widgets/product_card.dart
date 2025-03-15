@@ -10,17 +10,21 @@ class ProductCard extends StatelessWidget {
     required this.title,
     required this.price,
     this.rating,
+    this.cardHeight,
+    this.cardWidth,
   });
   final String image;
   final String title;
   final double price;
   final double? rating;
+  final double? cardHeight;
+  final double? cardWidth;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: ScreenSize.screenWidth(context) / 3,
-      height: ScreenSize.screenHeight(context) / 4,
+      width: cardWidth ?? ScreenSize.screenWidth(context) / 3,
+      height: cardHeight ?? ScreenSize.screenHeight(context) / 4,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.0),
         border: Border.all(color: AppColors.kPrimaryBackgroundColor),
@@ -39,7 +43,7 @@ class ProductCard extends StatelessWidget {
           ),
           Expanded(
             child: Align(
-              alignment: Alignment.bottomCenter,
+              alignment: Alignment.bottomLeft,
               child: Text(
                 title,
                 style: Styles.textStyle16,
@@ -49,7 +53,7 @@ class ProductCard extends StatelessWidget {
             ),
           ),
           Align(
-            alignment: Alignment.topCenter,
+            alignment: Alignment.topLeft,
             child: Text(
               '\$${price.round()}',
               style: Styles.textStyle16.copyWith(color: AppColors.blueColor),

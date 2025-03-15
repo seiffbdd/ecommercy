@@ -1,9 +1,11 @@
 import 'package:e_commercy/core/utils/app_colors.dart';
 import 'package:e_commercy/core/utils/app_router.dart';
+import 'package:e_commercy/core/utils/constants.dart';
 import 'package:e_commercy/core/utils/screen_size.dart';
 import 'package:e_commercy/core/utils/styles.dart';
 import 'package:e_commercy/features/home/presentation/views/widgets/build_tab_bar.dart';
 import 'package:e_commercy/features/home/presentation/views/widgets/horizontal_products_list_view.dart';
+import 'package:e_commercy/features/home/presentation/views/widgets/product_card.dart';
 import 'package:e_commercy/features/home/presentation/views/widgets/title_and_see_all_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -72,23 +74,48 @@ class _HomeViewState extends State<HomeView>
               child: TabBarView(
                 controller: _tabController,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TitleAndSeeAllButton(),
-                      SizedBox(
-                        height: ScreenSize.screenHeight(context) / 4,
-                        child: HorizontalProductsListView(),
-                      ),
-                      Divider(
-                        color: AppColors.kPrimaryBackgroundColor,
-                        thickness: 10.0,
-                      ),
-                      Text(
-                        'All Products',
-                        style: Styles.textStyle20.copyWith(
-                          fontWeight: FontWeight.bold,
+                  CustomScrollView(
+                    slivers: [
+                      SliverToBoxAdapter(child: TitleAndSeeAllButton()),
+                      SliverToBoxAdapter(
+                        child: SizedBox(
+                          height: ScreenSize.screenHeight(context) / 4,
+                          child: HorizontalProductsListView(),
                         ),
+                      ),
+                      SliverToBoxAdapter(
+                        child: Divider(
+                          color: AppColors.kPrimaryBackgroundColor,
+                          thickness: 10.0,
+                        ),
+                      ),
+                      SliverToBoxAdapter(
+                        child: Text(
+                          'All Products',
+                          style: Styles.textStyle20.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      SliverToBoxAdapter(child: sizedBoxHeight10),
+
+                      SliverGrid.builder(
+                        itemCount: 10,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 0.8,
+                          mainAxisSpacing: 8.0,
+                          crossAxisSpacing: 8.0,
+                        ),
+                        itemBuilder: (context, index) {
+                          return ProductCard(
+                            image:
+                                'https://images.macrumors.com/t/t0HGgkcxSch3BjyR0h1ouAm-pTM=/1600x0/article-new/2024/09/iphone-16-design.jpg',
+                            title: 'iphone 16 pro',
+                            price: 8000,
+                            rating: 4.8,
+                          );
+                        },
                       ),
                     ],
                   ),
