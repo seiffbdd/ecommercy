@@ -8,6 +8,6 @@ const Widget sizedBoxHeight30 = SizedBox(height: 30);
 
 const Widget sizedBoxHeight50 = SizedBox(height: 50);
 
-const Widget sizedBoxWidth10 = SizedBox(height: 10);
+const Widget sizedBoxWidth10 = SizedBox(width: 10);
 
-const Widget sizedBoxWidth12 = SizedBox(height: 20);
+const Widget sizedBoxWidth20 = SizedBox(width: 20);

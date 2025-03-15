@@ -39,8 +39,10 @@ class AuthRepoImpl extends AuthRepo {
     required String password,
   }) async {
     try {
-      UserCredential userCredential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
 
       return Right('User signed in successfully');
     } on FirebaseAuthException catch (e) {
