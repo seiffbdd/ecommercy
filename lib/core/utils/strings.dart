@@ -6,5 +6,6 @@ abstract class Strings {
   static const String sendGridEndPoint = 'v3/mail/send';
 
   static const String usersCollection = 'users';
+  static const String productsCollection = 'products';
   static const String isVerified = 'isVerified';
 }

@@ -4,8 +4,10 @@ import 'package:e_commercy/core/utils/cache_helper.dart';
 import 'package:e_commercy/core/utils/service_locator.dart';
 import 'package:e_commercy/core/utils/styles.dart';
 import 'package:e_commercy/firebase_options.dart';
+import 'package:e_commercy/core/utils/app_bloc_observer.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
@@ -13,12 +15,13 @@ void main() async {
   await dotenv.load();
   await CacheHelper.init();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  Bloc.observer = AppBlocObserver();
   setup();
-  runApp(const ECommercy());
+  runApp(const Ecommercy());
 }
 
-class ECommercy extends StatelessWidget {
-  const ECommercy({super.key});
+class Ecommercy extends StatelessWidget {
+  const Ecommercy({super.key});
 
   // This widget is the root of your application.
   @override

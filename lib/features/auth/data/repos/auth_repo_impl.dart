@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:e_commercy/core/utils/dio_helper.dart';
+import 'package:e_commercy/core/utils/service_locator.dart';
 import 'package:e_commercy/core/utils/strings.dart';
 import 'package:e_commercy/features/auth/data/models/user_model.dart';
 import 'package:e_commercy/features/auth/data/repos/auth_repo.dart';
@@ -20,7 +21,8 @@ class AuthRepoImpl extends AuthRepo {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
       final user = UserModel(name: name, email: email);
-      await FirebaseFirestore.instance
+      await getIt
+          .get<FirebaseFirestore>()
           .collection(Strings.usersCollection)
           .doc(userCredential.user!.uid)
           .set(user.toJson());
@@ -95,7 +97,8 @@ class AuthRepoImpl extends AuthRepo {
   @override
   Future<void> verifyEmail() async {
     try {
-      await FirebaseFirestore.instance
+      await getIt
+          .get<FirebaseFirestore>()
           .collection(Strings.usersCollection)
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .update({Strings.isVerified: true});

@@ -18,18 +18,37 @@ class ProductModel {
     return ProductModel(
       title: json['title'],
       price: json['price'],
-      category: json['category'],
+      category: convertStringToCategory(stringCategory: json['category']),
       image: json['image'],
       description: json['description'] ?? "",
       rating: json['rating'],
     );
   }
 
+  static Category convertStringToCategory({required String stringCategory}) {
+    switch (stringCategory) {
+      case 'electronics':
+        return Category.electronics;
+      case 'books':
+        return Category.books;
+      case 'fashion':
+        return Category.fashion;
+      case 'home':
+        return Category.home;
+      case 'mobilePhones':
+        return Category.mobilePhones;
+      case 'videoGames':
+        return Category.videoGames;
+      default:
+        return Category.electronics;
+    }
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'title': title,
       'price': price,
-      'category': category,
+      'category': category.toString().split('.').last,
       'description': description,
       'rating': rating,
       'image': image,
