@@ -1,22 +1,22 @@
 import 'package:e_commercy/core/utils/app_colors.dart';
 import 'package:e_commercy/core/utils/styles.dart';
+import 'package:e_commercy/features/home/presentation/cubits/get_all_products_cubit/get_all_products_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BuildTabBar extends StatelessWidget {
-  const BuildTabBar({
-    super.key,
-    required TabController tabController,
-    required List<Widget> tabs,
-  }) : _tabController = tabController,
-       _tabs = tabs;
+  const BuildTabBar({super.key, required this.tabController});
 
-  final TabController _tabController;
-  final List<Widget> _tabs;
+  final TabController tabController;
 
   @override
   Widget build(BuildContext context) {
     return TabBar(
-      controller: _tabController,
+      onTap: (index) {
+        context.read<GetAllProductsCubit>().selectedCategory =
+            GetAllProductsCubit.categories[index];
+      },
+      controller: tabController,
       padding: EdgeInsets.only(bottom: 12.0),
       indicatorPadding: EdgeInsets.symmetric(horizontal: -12.0),
       dividerColor: AppColors.kPrimaryBackgroundColor,
@@ -29,7 +29,7 @@ class BuildTabBar extends StatelessWidget {
       ),
       labelStyle: Styles.textStyle18.copyWith(color: Colors.white),
       unselectedLabelStyle: Styles.textStyle18,
-      tabs: _tabs,
+      tabs: GetAllProductsCubit.tabs,
     );
   }
 }

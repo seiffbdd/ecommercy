@@ -2,13 +2,12 @@ import 'package:e_commercy/core/utils/app_colors.dart';
 import 'package:e_commercy/core/utils/app_router.dart';
 
 import 'package:e_commercy/core/utils/styles.dart';
-import 'package:e_commercy/features/home/presentation/cubits/get_products_cubit/get_products_cubit.dart';
+import 'package:e_commercy/features/home/presentation/cubits/get_all_products_cubit/get_all_products_cubit.dart';
 import 'package:e_commercy/features/home/presentation/views/widgets/build_tab_bar.dart';
 import 'package:e_commercy/features/home/presentation/views/widgets/build_tab_bar_view.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class HomeView extends StatefulWidget {
@@ -25,8 +24,11 @@ class _HomeViewState extends State<HomeView>
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<GetProductsCubit>(context).getAllProducts();
-    _tabController = TabController(length: _tabs.length, vsync: this);
+
+    _tabController = TabController(
+      length: GetAllProductsCubit.tabs.length,
+      vsync: this,
+    );
   }
 
   @override
@@ -69,7 +71,7 @@ class _HomeViewState extends State<HomeView>
             ),
             Container(
               margin: EdgeInsets.symmetric(vertical: 12.0),
-              child: BuildTabBar(tabController: _tabController, tabs: _tabs),
+              child: BuildTabBar(tabController: _tabController),
             ),
             Expanded(child: BuildTabBarView(tabController: _tabController)),
           ],
@@ -77,15 +79,4 @@ class _HomeViewState extends State<HomeView>
       ),
     );
   }
-
-  final List<Widget> _tabs = [
-    Tab(child: Text('All')),
-    Tab(child: Text('Electronics')),
-    Tab(child: Text('All')),
-    Tab(child: Text('Electronics')),
-    Tab(child: Text('All')),
-    Tab(child: Text('Electronics')),
-    Tab(child: Text('All')),
-    Tab(child: Text('Electronics')),
-  ];
 }

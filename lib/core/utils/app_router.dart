@@ -1,7 +1,8 @@
 import 'package:e_commercy/features/auth/presentation/cubits/auth_cubit/auth_cubit.dart';
 import 'package:e_commercy/features/auth/presentation/views/login_view.dart';
 import 'package:e_commercy/features/auth/presentation/views/register_view.dart';
-import 'package:e_commercy/features/home/presentation/cubits/get_products_cubit/get_products_cubit.dart';
+import 'package:e_commercy/features/home/presentation/cubits/get_all_products_cubit/get_all_products_cubit.dart';
+import 'package:e_commercy/features/home/presentation/cubits/get_new_arrivals_cubit/get_new_arrivals_cubit.dart';
 import 'package:e_commercy/features/home/presentation/views/home_view.dart';
 import 'package:e_commercy/features/splash/presentation/views/splash_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -37,8 +38,11 @@ abstract class AppRouter {
       GoRoute(
         path: kHomeView,
         builder:
-            (context, state) => BlocProvider(
-              create: (context) => GetProductsCubit(),
+            (context, state) => MultiBlocProvider(
+              providers: [
+                BlocProvider(create: (context) => GetAllProductsCubit()),
+                BlocProvider(create: (context) => GetNewArrivalsCubit()),
+              ],
               child: HomeView(),
             ),
       ),

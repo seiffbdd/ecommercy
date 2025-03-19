@@ -1,11 +1,15 @@
+import 'package:e_commercy/core/utils/strings.dart';
+
 class ProductModel {
+  final int id;
   final String image;
   final String title;
   final String? description;
-  final double price;
-  final double? rating;
+  final num price;
+  final num? rating;
   final Category category;
   ProductModel({
+    required this.id,
     required this.title,
     this.description,
     required this.price,
@@ -16,9 +20,10 @@ class ProductModel {
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
+      id: json['id'],
       title: json['title'],
       price: json['price'],
-      category: convertStringToCategory(stringCategory: json['category']),
+      category: convertStringToCategory(stringCategory: json[Strings.category]),
       image: json['image'],
       description: json['description'] ?? "",
       rating: json['rating'],
@@ -46,6 +51,7 @@ class ProductModel {
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'title': title,
       'price': price,
       'category': category.toString().split('.').last,

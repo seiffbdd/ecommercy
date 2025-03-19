@@ -8,4 +8,5 @@ abstract class Strings {
   static const String usersCollection = 'users';
   static const String productsCollection = 'products';
   static const String isVerified = 'isVerified';
+  static const String category = 'category';
 }

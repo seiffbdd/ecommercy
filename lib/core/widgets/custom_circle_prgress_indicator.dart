@@ -5,6 +5,6 @@ class CustomCirclePrgressIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: CustomCirclePrgressIndicator());
+    return const Center(child: CircularProgressIndicator());
   }
 }
