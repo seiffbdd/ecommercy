@@ -6,7 +6,6 @@ import 'package:e_commercy/features/home/presentation/cubits/get_all_products_cu
 import 'package:e_commercy/features/home/presentation/cubits/get_new_arrivals_cubit/get_new_arrivals_cubit.dart';
 import 'package:e_commercy/features/home/presentation/views/widgets/all_products_sliver_grid.dart';
 import 'package:e_commercy/features/home/presentation/views/widgets/horizontal_products_list_view.dart';
-import 'package:e_commercy/features/home/presentation/views/widgets/title_and_see_all_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -33,7 +32,12 @@ class _BuildCustomScrollViewState extends State<BuildCustomScrollView> {
   Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: [
-        SliverToBoxAdapter(child: TitleAndSeeAllButton()),
+        SliverToBoxAdapter(
+          child: Text(
+            'New Arrivals',
+            style: Styles.textStyle20.copyWith(fontWeight: FontWeight.bold),
+          ),
+        ),
         SliverToBoxAdapter(
           child: SizedBox(
             height: ScreenSize.screenHeight(context) / 4,

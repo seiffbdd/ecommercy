@@ -13,6 +13,7 @@ class AuthButton extends StatelessWidget {
     this.textColor = AppColors.whiteColor,
     this.child,
     this.width,
+    this.height,
   });
   final String? text;
   final TextStyle? textStyle;
@@ -21,9 +22,12 @@ class AuthButton extends StatelessWidget {
   final Color textColor;
   final Widget? child;
   final double? width;
+  final double? height;
+
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
+      height: height,
       minWidth: width ?? ScreenSize.screenWidth(context),
       shape: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16.0),

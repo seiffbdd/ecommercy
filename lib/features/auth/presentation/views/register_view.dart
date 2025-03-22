@@ -1,8 +1,8 @@
 import 'package:e_commercy/core/utils/app_colors.dart';
 import 'package:e_commercy/core/utils/assets_data.dart';
+import 'package:e_commercy/core/utils/components.dart';
 import 'package:e_commercy/core/utils/constants.dart';
 import 'package:e_commercy/core/utils/screen_size.dart';
-import 'package:e_commercy/core/utils/show_snack_bar.dart';
 import 'package:e_commercy/core/utils/styles.dart';
 import 'package:e_commercy/features/auth/presentation/cubits/auth_cubit/auth_cubit.dart';
 import 'package:e_commercy/features/auth/presentation/views/verify_email_view.dart';
@@ -69,7 +69,7 @@ class _RegisterViewState extends State<RegisterView> {
           );
         }
         if (state is RegisterFailed) {
-          showSnackBar(
+          Components.showSnackBar(
             context,
             text: state.errMessage,
             color: AppColors.redColor,

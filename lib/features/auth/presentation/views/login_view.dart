@@ -1,8 +1,8 @@
 import 'package:e_commercy/core/utils/app_colors.dart';
 import 'package:e_commercy/core/utils/app_router.dart';
+import 'package:e_commercy/core/utils/components.dart';
 import 'package:e_commercy/core/utils/constants.dart';
 import 'package:e_commercy/core/utils/screen_size.dart';
-import 'package:e_commercy/core/utils/show_snack_bar.dart';
 import 'package:e_commercy/core/utils/styles.dart';
 import 'package:e_commercy/features/auth/presentation/cubits/auth_cubit/auth_cubit.dart';
 import 'package:e_commercy/features/auth/presentation/views/widgets/auth_button.dart';
@@ -47,14 +47,14 @@ class _RegisterViewState extends State<LoginView> {
       listener: (context, state) {
         if (state is Loginsuccess) {
           context.go(AppRouter.kHomeView);
-          showSnackBar(
+          Components.showSnackBar(
             context,
             text: 'You are signed in',
             color: AppColors.greenColor,
           );
         }
         if (state is LoginFailed) {
-          showSnackBar(
+          Components.showSnackBar(
             context,
             text: state.errMessage,
             color: AppColors.redColor,
