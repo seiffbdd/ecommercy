@@ -22,13 +22,21 @@ abstract class Components {
     );
   }
 
-  static Future<dynamic> showCustomDialog(BuildContext context) async {
+  static showCustomDialog(
+    BuildContext context, {
+    required Function() onPressedCancelButton,
+    required Function() onPressedOkButton,
+    required String title,
+    String? content,
+    String cancelButtonText = 'Cancel',
+    String okButtonText = 'Ok',
+  }) async {
     return await showDialog(
       context: context,
       builder:
           (context) => SimpleDialog(
             title: Text(
-              'Logout',
+              title,
               style: Styles.textStyle25.copyWith(fontWeight: FontWeight.w400),
             ),
             backgroundColor: AppColors.whiteColor,
@@ -39,32 +47,24 @@ abstract class Components {
                   left: 12.0,
                   right: 12.0,
                 ),
-                child: Text(
-                  'Are you sure to logout?',
-                  style: Styles.textStyle20,
-                ),
+                child: Text(content ?? '', style: Styles.textStyle20),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   TextButton(
-                    onPressed: () {
-                      GoRouter.of(context).pop();
-                    },
+                    onPressed: onPressedCancelButton,
                     child: Text(
-                      'Cancel',
+                      cancelButtonText,
                       style: Styles.textStyle20.copyWith(
                         color: AppColors.blueColor,
                       ),
                     ),
                   ),
                   TextButton(
-                    onPressed: () {
-                      FirebaseAuth.instance.signOut();
-                      context.go(AppRouter.kLoginView);
-                    },
+                    onPressed: onPressedOkButton,
                     child: Text(
-                      'Logout',
+                      okButtonText,
                       style: Styles.textStyle20.copyWith(
                         color: AppColors.blueColor,
                       ),
