@@ -1,5 +1,5 @@
 import 'package:e_commercy/core/models/product_model.dart';
-import 'package:e_commercy/features/home/presentation/views/widgets/product_card.dart';
+import 'package:e_commercy/features/home/presentation/view/widgets/product_card.dart';
 import 'package:flutter/material.dart';
 
 class AllProductsSliverGrid extends StatelessWidget {

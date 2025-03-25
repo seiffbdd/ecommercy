@@ -1,43 +1,50 @@
 import 'package:e_commercy/core/utils/app_colors.dart';
-import 'package:e_commercy/core/utils/app_router.dart';
+import 'package:e_commercy/core/utils/assets_data.dart';
 import 'package:e_commercy/core/utils/components.dart';
 import 'package:e_commercy/core/utils/constants.dart';
 import 'package:e_commercy/core/utils/screen_size.dart';
 import 'package:e_commercy/core/utils/styles.dart';
-import 'package:e_commercy/features/auth/presentation/cubits/auth_cubit/auth_cubit.dart';
-import 'package:e_commercy/features/auth/presentation/views/widgets/auth_button.dart';
-import 'package:e_commercy/features/auth/presentation/views/widgets/center_progress_indicator_with_stack.dart';
-import 'package:e_commercy/features/auth/presentation/views/widgets/custom_text_form_field.dart';
-import 'package:e_commercy/features/splash/presentation/views/widgets/donnot_have_an_account_row.dart';
+import 'package:e_commercy/features/auth/presentation/view_model/auth_cubit/auth_cubit.dart';
+import 'package:e_commercy/features/auth/presentation/view/verify_email_view.dart';
+import 'package:e_commercy/features/auth/presentation/view/widgets/auth_button.dart';
+import 'package:e_commercy/features/auth/presentation/view/widgets/center_progress_indicator_with_stack.dart';
+import 'package:e_commercy/features/auth/presentation/view/widgets/custom_text_form_field.dart';
+import 'package:e_commercy/features/splash/presentation/views/widgets/already_have_an_account_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
-class LoginView extends StatefulWidget {
-  const LoginView({super.key});
+class RegisterView extends StatefulWidget {
+  const RegisterView({super.key});
 
   @override
-  State<LoginView> createState() => _RegisterViewState();
+  State<RegisterView> createState() => _RegisterViewState();
 }
 
-class _RegisterViewState extends State<LoginView> {
+class _RegisterViewState extends State<RegisterView> {
+  late TextEditingController _nameController;
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
+  late TextEditingController _confirmPasswordController;
   late GlobalKey<FormState> _formKey;
 
   @override
   void initState() {
     super.initState();
+    _nameController = TextEditingController();
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
+    _confirmPasswordController = TextEditingController();
     _formKey = GlobalKey<FormState>();
+    context.read<AuthCubit>().obscureText = true;
   }
 
   @override
   void dispose() {
     super.dispose();
+    _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    _confirmPasswordController.dispose();
   }
 
   @override
@@ -45,15 +52,21 @@ class _RegisterViewState extends State<LoginView> {
     var authCubit = context.read<AuthCubit>();
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
-        if (state is Loginsuccess) {
-          context.go(AppRouter.kHomeView);
-          Components.showSnackBar(
-            context,
-            text: 'You are signed in',
-            color: AppColors.greenColor,
+        if (state is Registersuccess) {
+          _nameController.text = '';
+          _passwordController.text = '';
+          _confirmPasswordController.text = '';
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder:
+                  (context) => BlocProvider.value(
+                    value: authCubit,
+                    child: VerifyEmailView(email: _emailController.text),
+                  ),
+            ),
           );
         }
-        if (state is LoginFailed) {
+        if (state is RegisterFailed) {
           Components.showSnackBar(
             context,
             text: state.errMessage,
@@ -62,28 +75,33 @@ class _RegisterViewState extends State<LoginView> {
         }
       },
       child: Scaffold(
-        appBar: AppBar(title: const Text('Sign In')),
+        appBar: AppBar(title: const Text('Create Account')),
         body: Stack(
           children: [
             Padding(
               padding: EdgeInsets.all(16.0),
               child: SingleChildScrollView(
                 child: Form(
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   key: _formKey,
                   child: Column(
                     children: [
+                      SizedBox(
+                        width: ScreenSize.screenWidth(context) * 0.75,
+                        child: Image.asset(AssetsData.eCommercyWord),
+                      ),
                       sizedBoxHeight10,
                       Text(
-                        'Welcome Back!',
-                        style: Styles.textStyle30,
-                        textAlign: TextAlign.center,
-                      ),
-
-                      sizedBoxHeight20,
-                      Text(
-                        'Sign in to continue shopping',
+                        'Create an account to start shopping',
                         style: Styles.textStyle20,
                         textAlign: TextAlign.center,
+                      ),
+                      sizedBoxHeight30,
+                      CustomTextFormField(
+                        labelText: 'Full Name',
+                        hintText: 'Enter your full name',
+                        prefixIcon: Icon(Icons.person_outline),
+                        controller: _nameController,
                       ),
                       sizedBoxHeight20,
                       CustomTextFormField(
@@ -94,7 +112,6 @@ class _RegisterViewState extends State<LoginView> {
                         keyboardType: TextInputType.emailAddress,
                       ),
                       sizedBoxHeight20,
-
                       BlocBuilder<AuthCubit, AuthState>(
                         buildWhen:
                             (previous, current) =>
@@ -111,11 +128,10 @@ class _RegisterViewState extends State<LoginView> {
                               8.0,
                             ),
                             labelText: 'Password',
-                            hintText: 'Enter your password',
+                            hintText: 'Create a password',
                             prefixIcon: Icon(Icons.lock),
                             controller: _passwordController,
                             obscureText: authCubit.obscureText,
-                            textInputAction: TextInputAction.done,
                             suffix: IconButton(
                               padding: EdgeInsets.zero,
                               onPressed: () {
@@ -129,31 +145,34 @@ class _RegisterViewState extends State<LoginView> {
                           );
                         },
                       ),
-                      sizedBoxHeight10,
-
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: TextButton(
-                          onPressed: () {},
-                          child: Text(
-                            'Forgot Password?',
-                            style: Styles.textStyle16.copyWith(
-                              color: AppColors.blueColor,
-                            ),
-                          ),
-                        ),
+                      sizedBoxHeight20,
+                      CustomTextFormField(
+                        labelText: 'Confirm Password',
+                        prefixIcon: Icon(Icons.lock),
+                        controller: _confirmPasswordController,
+                        obscureText: true,
+                        textInputAction: TextInputAction.done,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'This field is required';
+                          } else if (value != _passwordController.text) {
+                            return 'Passwords do not match';
+                          }
+                          return null;
+                        },
                       ),
-                      sizedBoxHeight10,
+                      sizedBoxHeight30,
                       AuthButton(
-                        text: 'Sign In',
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            authCubit.login(
+                            authCubit.signup(
+                              name: _nameController.text,
                               email: _emailController.text,
                               password: _passwordController.text,
                             );
                           }
                         },
+                        text: 'Create Account',
                       ),
                       sizedBoxHeight20,
                       Row(
@@ -173,7 +192,7 @@ class _RegisterViewState extends State<LoginView> {
                         buttonColor: AppColors.kPrimaryBackgroundColor,
                         textColor: AppColors.blackColor,
                       ),
-                      DonnotHaveAnAccountRow(
+                      AlreayHaveAnAccountRow(
                         textColor: AppColors.blackColor,
                         buttonColor: AppColors.blueColor,
                       ),
@@ -184,10 +203,10 @@ class _RegisterViewState extends State<LoginView> {
             ),
             BlocBuilder<AuthCubit, AuthState>(
               builder: (context, state) {
-                if (state is LoginLoading) {
+                if (state is RegisterLoading) {
                   return CenterProgressIndicatorWithStack();
                 }
-                return SizedBox.shrink();
+                return SizedBox.shrink(); // Hide if not loading
               },
             ),
           ],

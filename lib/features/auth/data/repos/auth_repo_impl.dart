@@ -20,7 +20,11 @@ class AuthRepoImpl extends AuthRepo {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
-      final user = UserModel(name: name, email: email);
+      final UserModel user = UserModel(
+        name: name,
+        email: email,
+        role: Strings.buyer,
+      );
       await getIt
           .get<FirebaseFirestore>()
           .collection(Strings.usersCollection)
@@ -106,6 +110,19 @@ class AuthRepoImpl extends AuthRepo {
       if (kDebugMode) {
         print('unable to verify user');
       }
+    }
+  }
+
+  @override
+  Future<void> updateAccountToSeller() async {
+    try {
+      await getIt
+          .get<FirebaseFirestore>()
+          .collection(Strings.usersCollection)
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .update({Strings.role: Strings.seller});
+    } catch (e) {
+      debugPrint('unable to verify user');
     }
   }
 }

@@ -1,4 +1,3 @@
-import 'dart:developer' as dev;
 import 'dart:math';
 
 import 'package:dartz/dartz.dart';
@@ -61,25 +60,20 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  int verificationCode = 000000;
+  int _verificationCode = 000000;
 
-  Future<void> sendVerificationCode({
-    required String recepientEmail,
-    String? recepientName,
-  }) async {
+  Future<void> sendVerificationCode({required String recepientEmail}) async {
     emit(SendVerificationCodeLoading());
     Random random = Random();
-    verificationCode = 100000 + random.nextInt(900000);
+    _verificationCode = 100000 + random.nextInt(900000);
 
     try {
       await getIt.get<AuthRepo>().sendVerificationCode(
         recepientEmail: recepientEmail,
-        verificationCode: verificationCode.toString(),
+        verificationCode: _verificationCode.toString(),
       );
-      dev.log('email sent cubit');
       emit(SendVerificationCodeSuccess());
     } catch (e) {
-      dev.log('cubit ${e.toString()}');
       emit(
         SendVerificationCodeFailed(
           errMessage: 'Unable to send code now, please try again later',
@@ -97,9 +91,26 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> verifyEmail({required String code}) async {
     emit(EmailVerifiedLoading());
     try {
-      if (code == verificationCode.toString()) {
+      if (code == _verificationCode.toString()) {
         await getIt.get<AuthRepo>().verifyEmail();
-        emit(EmailVerifiedSuccess());
+
+        emit(BuyerVerifiedSuccess());
+      } else {
+        emit(
+          EmailVerifiedFailed(errMessage: 'Verification code is not correct'),
+        );
+      }
+    } catch (e) {
+      emit(EmailVerifiedFailed(errMessage: e.toString()));
+    }
+  }
+
+  Future<void> updateAccountToSeller({required String code}) async {
+    emit(EmailVerifiedLoading());
+    try {
+      if (code == _verificationCode.toString()) {
+        await getIt.get<AuthRepo>().updateAccountToSeller();
+        emit(SellerVerifiedSuccess());
       } else {
         emit(
           EmailVerifiedFailed(errMessage: 'Verification code is not correct'),

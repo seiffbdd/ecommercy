@@ -38,7 +38,9 @@ final class SendVerificationCodeFailed extends AuthState {
 
 final class EmailVerifiedLoading extends AuthState {}
 
-final class EmailVerifiedSuccess extends AuthState {}
+final class BuyerVerifiedSuccess extends AuthState {}
+
+final class SellerVerifiedSuccess extends AuthState {}
 
 final class EmailVerifiedFailed extends AuthState {
   final String errMessage;

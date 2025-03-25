@@ -16,4 +16,5 @@ abstract class AuthRepo {
   Future<Either> login({required String email, required String password});
 
   Future<void> verifyEmail();
+  Future<void> updateAccountToSeller();
 }

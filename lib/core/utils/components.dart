@@ -1,9 +1,6 @@
 import 'package:e_commercy/core/utils/app_colors.dart';
-import 'package:e_commercy/core/utils/app_router.dart';
 import 'package:e_commercy/core/utils/styles.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 abstract class Components {
   static void showSnackBar(

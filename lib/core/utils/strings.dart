@@ -9,4 +9,10 @@ abstract class Strings {
   static const String productsCollection = 'products';
   static const String isVerified = 'isVerified';
   static const String category = 'category';
+  static const String buyer = 'buyer';
+  static const String seller = 'seller';
+  static const String name = 'name';
+  static const String email = 'email';
+  static const String role = 'role';
+  static const String isGuest = 'isGuest';
 }

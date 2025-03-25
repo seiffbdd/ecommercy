@@ -2,10 +2,10 @@ import 'package:e_commercy/core/utils/app_colors.dart';
 import 'package:e_commercy/core/utils/screen_size.dart';
 import 'package:e_commercy/core/utils/styles.dart';
 import 'package:e_commercy/core/widgets/custom_circle_prgress_indicator.dart';
-import 'package:e_commercy/features/home/presentation/cubits/get_all_products_cubit/get_all_products_cubit.dart';
-import 'package:e_commercy/features/home/presentation/cubits/get_new_arrivals_cubit/get_new_arrivals_cubit.dart';
-import 'package:e_commercy/features/home/presentation/views/widgets/all_products_sliver_grid.dart';
-import 'package:e_commercy/features/home/presentation/views/widgets/horizontal_products_list_view.dart';
+import 'package:e_commercy/features/home/presentation/view_model/get_all_products_cubit/get_all_products_cubit.dart';
+import 'package:e_commercy/features/home/presentation/view_model/get_new_arrivals_cubit/get_new_arrivals_cubit.dart';
+import 'package:e_commercy/features/home/presentation/view/widgets/all_products_sliver_grid.dart';
+import 'package:e_commercy/features/home/presentation/view/widgets/horizontal_products_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

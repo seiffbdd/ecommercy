@@ -3,9 +3,9 @@ import 'package:e_commercy/core/utils/app_router.dart';
 import 'package:e_commercy/core/utils/components.dart';
 import 'package:e_commercy/core/utils/constants.dart';
 import 'package:e_commercy/core/utils/styles.dart';
-import 'package:e_commercy/features/auth/presentation/cubits/auth_cubit/auth_cubit.dart';
-import 'package:e_commercy/features/auth/presentation/views/widgets/auth_button.dart';
-import 'package:e_commercy/features/auth/presentation/views/widgets/center_progress_indicator_with_stack.dart';
+import 'package:e_commercy/features/auth/presentation/view_model/auth_cubit/auth_cubit.dart';
+import 'package:e_commercy/features/auth/presentation/view/widgets/auth_button.dart';
+import 'package:e_commercy/features/auth/presentation/view/widgets/center_progress_indicator_with_stack.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,9 +13,13 @@ import 'package:go_router/go_router.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class VerifyEmailView extends StatefulWidget {
-  const VerifyEmailView({super.key, required this.email});
+  const VerifyEmailView({
+    super.key,
+    required this.email,
+    this.isSeller = false,
+  });
   final String email;
-
+  final bool isSeller;
   @override
   State<VerifyEmailView> createState() => _VerifyEmailViewState();
 }
@@ -26,11 +30,13 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
   void initState() {
     super.initState();
     _codeController = TextEditingController();
+    context.read<AuthCubit>().sendVerificationCode(
+      recepientEmail: widget.email,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    var authCubit = context.read<AuthCubit>();
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is EmailVerifiedFailed) {
@@ -40,7 +46,7 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
             color: AppColors.redColor,
           );
         }
-        if (state is EmailVerifiedSuccess) {
+        if (state is BuyerVerifiedSuccess) {
           Components.showSnackBar(
             context,
             text: 'Email verified successfully',
@@ -48,6 +54,14 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
           );
 
           GoRouter.of(context).go(AppRouter.kHomeView);
+        }
+        if (state is SellerVerifiedSuccess) {
+          Components.showSnackBar(
+            context,
+            text: 'Your Email successfully, you can sell products now',
+            color: AppColors.greenColor,
+          );
+          GoRouter.of(context).pop();
         }
       },
       child: Scaffold(
@@ -72,7 +86,9 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
                       ),
                       sizedBoxHeight30,
                       Text(
-                        'Enter Verification Code',
+                        widget.isSeller
+                            ? 'Verify your email to start selling'
+                            : 'Enter Verification Code',
                         style: Styles.textStyle30,
                         textAlign: TextAlign.center,
                       ),
@@ -111,7 +127,15 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
                         buttonColor: AppColors.blueColor,
                         text: 'Verify',
                         onPressed: () {
-                          authCubit.verifyEmail(code: _codeController.text);
+                          if (widget.isSeller) {
+                            context.read<AuthCubit>().updateAccountToSeller(
+                              code: _codeController.text,
+                            );
+                          } else {
+                            context.read<AuthCubit>().verifyEmail(
+                              code: _codeController.text,
+                            );
+                          }
                         },
                       ),
                       sizedBoxHeight30,
