@@ -16,6 +16,10 @@ class CustomTextFormField extends StatelessWidget {
     this.suffix,
     this.contentPadding,
     this.onFieldSubmitted,
+    this.maxLines = 1,
+    this.autovalidateMode = AutovalidateMode.onUserInteraction,
+    this.enabled = true,
+    this.labelStyle,
   });
   final String? labelText;
   final String? hintText;
@@ -28,15 +32,24 @@ class CustomTextFormField extends StatelessWidget {
   final String? Function(String?)? validator;
   final EdgeInsetsGeometry? contentPadding;
   final void Function(String)? onFieldSubmitted;
+  final int maxLines;
+  final AutovalidateMode autovalidateMode;
+  final bool enabled;
+  final TextStyle? labelStyle;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      autovalidateMode: AutovalidateMode.onUserInteraction,
+      maxLines: maxLines,
+      autovalidateMode: autovalidateMode,
       controller: controller,
       onFieldSubmitted: onFieldSubmitted,
-      style: Styles.textStyle20,
+      style: Styles.textStyle20.copyWith(
+        color: AppColors.blackColor,
+        fontWeight: FontWeight.w500,
+      ),
       textInputAction: textInputAction,
       keyboardType: keyboardType,
+      enabled: enabled,
       validator:
           validator ??
           (value) {
@@ -46,8 +59,13 @@ class CustomTextFormField extends StatelessWidget {
             return null;
           },
       decoration: InputDecoration(
+        hintStyle: Styles.textStyle16.copyWith(color: AppColors.greyColor),
+        alignLabelWithHint: true,
         labelText: labelText,
         hintText: hintText,
+        labelStyle:
+            labelStyle ??
+            Styles.textStyle16.copyWith(color: AppColors.lightBlackColor),
         filled: true,
         contentPadding: contentPadding,
         fillColor: AppColors.whiteColor,

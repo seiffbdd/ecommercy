@@ -67,7 +67,7 @@ class AuthRepoImpl extends AuthRepo {
   Future sendVerificationCode({
     required String recepientEmail,
     String? recepientName,
-    String? verificationCode,
+    required String verificationCode,
   }) async {
     try {
       await dioHelper.post(

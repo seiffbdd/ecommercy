@@ -4,7 +4,7 @@ import 'package:e_commercy/core/utils/components.dart';
 import 'package:e_commercy/core/utils/constants.dart';
 import 'package:e_commercy/core/utils/styles.dart';
 import 'package:e_commercy/features/auth/presentation/view_model/auth_cubit/auth_cubit.dart';
-import 'package:e_commercy/features/auth/presentation/view/widgets/auth_button.dart';
+import 'package:e_commercy/core/widgets/auth_button.dart';
 import 'package:e_commercy/features/auth/presentation/view/widgets/center_progress_indicator_with_stack.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

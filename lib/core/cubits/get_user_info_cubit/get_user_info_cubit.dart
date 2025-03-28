@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commercy/core/utils/service_locator.dart';
 import 'package:e_commercy/core/utils/strings.dart';

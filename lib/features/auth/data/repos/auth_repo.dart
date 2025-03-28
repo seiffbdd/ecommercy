@@ -10,7 +10,7 @@ abstract class AuthRepo {
   Future sendVerificationCode({
     required String recepientEmail,
     String? recepientName,
-    String? verificationCode,
+    required String verificationCode,
   });
 
   Future<Either> login({required String email, required String password});
