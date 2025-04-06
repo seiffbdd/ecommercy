@@ -54,6 +54,7 @@ class _RegisterViewState extends State<LoginView> {
             text: 'You are signed in',
             color: AppColors.greenColor,
           );
+          CacheHelper.prefs.setBool(Strings.isGuest, false);
         }
         if (state is LoginFailed) {
           Components.showSnackBar(

@@ -1,8 +1,6 @@
 import 'package:e_commercy/core/cubits/get_user_info_cubit/get_user_info_cubit.dart';
 import 'package:e_commercy/core/utils/app_colors.dart';
-import 'package:e_commercy/core/utils/cache_helper.dart';
 import 'package:e_commercy/core/utils/components.dart';
-import 'package:e_commercy/core/utils/strings.dart';
 
 import 'package:e_commercy/core/utils/styles.dart';
 import 'package:e_commercy/features/home/presentation/view_model/get_all_products_cubit/get_all_products_cubit.dart';
@@ -67,7 +65,6 @@ class _HomeViewState extends State<HomeView>
                     context.pop();
                   },
                   onPressedOkButton: () async {
-                    await CacheHelper.prefs.setBool(Strings.isGuest, false);
                     if (!context.mounted) return;
                     context.go('/login');
                   },
