@@ -17,7 +17,6 @@ class CustomTextFormField extends StatelessWidget {
     this.contentPadding,
     this.onFieldSubmitted,
     this.maxLines = 1,
-    this.autovalidateMode = AutovalidateMode.onUserInteraction,
     this.enabled = true,
     this.labelStyle,
   });
@@ -33,14 +32,12 @@ class CustomTextFormField extends StatelessWidget {
   final EdgeInsetsGeometry? contentPadding;
   final void Function(String)? onFieldSubmitted;
   final int maxLines;
-  final AutovalidateMode autovalidateMode;
   final bool enabled;
   final TextStyle? labelStyle;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       maxLines: maxLines,
-      autovalidateMode: autovalidateMode,
       controller: controller,
       onFieldSubmitted: onFieldSubmitted,
       style: Styles.textStyle20.copyWith(

@@ -1,17 +1,20 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commercy/core/utils/strings.dart';
 
 class ProductModel {
-  final int id;
   final String image;
   final String title;
-  final String? description;
+  final String description;
   final num price;
   final num? rating;
   final Category category;
+  Timestamp? date;
+
+  static int productsNumber = 0;
   ProductModel({
-    required this.id,
+    this.date,
     required this.title,
-    this.description,
+    this.description = '',
     required this.price,
     this.rating,
     required this.category,
@@ -20,46 +23,40 @@ class ProductModel {
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
-      id: json['id'],
       title: json['title'],
       price: json['price'],
-      category: convertStringToCategory(stringCategory: json[Strings.category]),
+      category: Category.fromString(stringCategory: json[Strings.category])!,
       image: json['image'],
       description: json['description'] ?? "",
       rating: json['rating'],
+      date: json['date'] ?? Timestamp.now(),
     );
-  }
-
-  static Category convertStringToCategory({required String stringCategory}) {
-    switch (stringCategory) {
-      case 'electronics':
-        return Category.electronics;
-      case 'books':
-        return Category.books;
-      case 'fashion':
-        return Category.fashion;
-      case 'home':
-        return Category.home;
-      case 'mobilePhones':
-        return Category.mobilePhones;
-      case 'videoGames':
-        return Category.videoGames;
-      default:
-        return Category.electronics;
-    }
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
       'title': title,
       'price': price,
       'category': category.toString().split('.').last,
       'description': description,
-      'rating': rating,
       'image': image,
+      'date': date,
     };
   }
 }
 
-enum Category { electronics, books, fashion, home, mobilePhones, videoGames }
+enum Category {
+  electronics,
+  books,
+  fashion,
+  home,
+  mobilePhones,
+  videoGames;
+
+  static Category? fromString({required String stringCategory}) {
+    for (var value in Category.values) {
+      if (value.name == stringCategory) return value;
+    }
+    return null;
+  }
+}

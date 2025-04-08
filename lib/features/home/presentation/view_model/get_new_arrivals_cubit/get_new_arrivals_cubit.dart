@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:e_commercy/core/models/product_model.dart';
 import 'package:e_commercy/core/utils/service_locator.dart';
-import 'package:e_commercy/features/home/data/repos/products_repo.dart';
+import 'package:e_commercy/features/home/data/repos/home_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,10 +15,10 @@ class GetNewArrivalsCubit extends Cubit<GetNewArrivalsState> {
     try {
       late Either<String, List<ProductModel>> response;
       if (category.toLowerCase() == 'all') {
-        response = await getIt.get<ProductsRepo>().getNewArrivalsProducts();
+        response = await getIt.get<HomeRepo>().getNewArrivalsProducts();
       } else {
         response = await getIt
-            .get<ProductsRepo>()
+            .get<HomeRepo>()
             .getNewArrivalsProductsForSpecificCategory(category: category);
       }
       response.fold(

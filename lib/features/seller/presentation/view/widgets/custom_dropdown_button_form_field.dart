@@ -5,14 +5,17 @@ import 'package:flutter/material.dart';
 class CustomDropdownButtonFormField extends StatelessWidget {
   const CustomDropdownButtonFormField({
     super.key,
-    required this.labelText,
+    this.labelText,
+    this.hintText,
     required this.onChanged,
     required this.items,
+    this.validator,
   });
-  final String labelText;
+  final String? labelText;
+  final String? hintText;
   final Function(String?)? onChanged;
   final List<String> items;
-
+  final FormFieldValidator<String>? validator;
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField(
@@ -21,13 +24,22 @@ class CustomDropdownButtonFormField extends StatelessWidget {
         fontWeight: FontWeight.w500,
       ),
       dropdownColor: AppColors.kPrimaryBackgroundColor,
-
+      validator:
+          validator ??
+          (value) {
+            if (value == null) {
+              return 'Please select a category';
+            }
+            return null;
+          },
       decoration: InputDecoration(
         labelText: labelText,
+        hintText: hintText,
         labelStyle: Styles.textStyle18.copyWith(
           color: AppColors.blackColor,
           fontWeight: FontWeight.w500,
         ),
+        hintStyle: Styles.textStyle18.copyWith(color: AppColors.greyColor),
         alignLabelWithHint: true,
 
         filled: true,

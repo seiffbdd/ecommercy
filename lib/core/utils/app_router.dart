@@ -8,6 +8,7 @@ import 'package:e_commercy/features/home/presentation/view_model/get_all_product
 import 'package:e_commercy/features/home/presentation/view_model/get_new_arrivals_cubit/get_new_arrivals_cubit.dart';
 import 'package:e_commercy/features/home/presentation/view/home_view.dart';
 import 'package:e_commercy/features/seller/presentation/view/add_products_view.dart';
+import 'package:e_commercy/features/seller/presentation/view_model/add_product_cubit/add_product_cubit.dart';
 import 'package:e_commercy/features/splash/presentation/views/splash_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -58,7 +59,11 @@ abstract class AppRouter {
       ),
       GoRoute(
         path: kAddProductView,
-        builder: (context, state) => AddProductsView(),
+        builder:
+            (context, state) => BlocProvider(
+              create: (context) => AddProductCubit(),
+              child: AddProductsView(),
+            ),
       ),
     ],
   );

@@ -3,10 +3,10 @@ import 'package:dartz/dartz.dart';
 import 'package:e_commercy/core/models/product_model.dart';
 import 'package:e_commercy/core/utils/service_locator.dart';
 import 'package:e_commercy/core/utils/strings.dart';
-import 'package:e_commercy/features/home/data/repos/products_repo.dart';
+import 'package:e_commercy/features/home/data/repos/home_repo.dart';
 import 'package:flutter/material.dart';
 
-class ProductsRepoImpl extends ProductsRepo {
+class HomeRepoImpl extends HomeRepo {
   @override
   Future<Either<String, List<ProductModel>>> getAllProducts({
     Category? category,
@@ -39,7 +39,7 @@ class ProductsRepoImpl extends ProductsRepo {
           await getIt
               .get<FirebaseFirestore>()
               .collection(Strings.productsCollection)
-              .orderBy('id', descending: true)
+              .orderBy('date', descending: true)
               .limitToLast(10)
               .get();
 
@@ -92,7 +92,7 @@ class ProductsRepoImpl extends ProductsRepo {
               .get<FirebaseFirestore>()
               .collection(Strings.productsCollection)
               .where(Strings.category, isEqualTo: category)
-              .orderBy('id', descending: true)
+              .orderBy('date', descending: true)
               .limitToLast(10)
               .get();
 

@@ -32,8 +32,9 @@ class CustomDrawer extends StatelessWidget {
             sizedBoxHeight20,
             Divider(),
             sizedBoxHeight10,
-            if (context.read<GetUserInfoCubit>().userModel!.role ==
-                Strings.buyer)
+            if (context.read<GetUserInfoCubit>().userModel != null &&
+                context.read<GetUserInfoCubit>().userModel!.role ==
+                    Strings.buyer)
               AuthButton(
                 text: 'Start Selling',
                 textStyle: Styles.textStyle16.copyWith(
@@ -54,8 +55,9 @@ class CustomDrawer extends StatelessWidget {
                   );
                 },
               ),
-            if (context.read<GetUserInfoCubit>().userModel!.role ==
-                Strings.seller)
+            if (context.read<GetUserInfoCubit>().userModel != null &&
+                context.read<GetUserInfoCubit>().userModel!.role ==
+                    Strings.seller)
               AuthButton(
                 text: 'Add Product',
                 textStyle: Styles.textStyle16.copyWith(

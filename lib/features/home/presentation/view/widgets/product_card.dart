@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:e_commercy/core/utils/app_colors.dart';
 import 'package:e_commercy/core/utils/screen_size.dart';
 import 'package:e_commercy/core/utils/styles.dart';
+import 'package:e_commercy/core/widgets/custom_circle_prgress_indicator.dart';
 import 'package:flutter/material.dart';
 
 class ProductCard extends StatelessWidget {
@@ -38,7 +40,17 @@ class ProductCard extends StatelessWidget {
                 topLeft: Radius.circular(12.0),
                 topRight: Radius.circular(12.0),
               ),
-              child: Image.network(fit: BoxFit.fill, image),
+              child: CachedNetworkImage(
+                fit: BoxFit.fill,
+                imageUrl: image,
+                placeholder: (context, url) => CustomCirclePrgressIndicator(),
+                errorWidget:
+                    (context, url, error) => const Icon(
+                      Icons.image_outlined,
+                      size: 50,
+                      color: Colors.grey,
+                    ),
+              ),
             ),
           ),
           Expanded(
