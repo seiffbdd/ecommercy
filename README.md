@@ -1,6 +1,6 @@
 # e_commercy
 
-A new Flutter project.
+A new Flutter app.
 
 ## Getting Started
 
