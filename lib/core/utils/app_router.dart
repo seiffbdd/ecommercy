@@ -1,6 +1,6 @@
-import 'package:e_commercy/core/cubits/get_user_info_cubit/get_user_info_cubit.dart';
 import 'package:e_commercy/core/utils/cache_helper.dart';
 import 'package:e_commercy/core/utils/strings.dart';
+import 'package:e_commercy/features/auth/presentation/view/loading_view.dart';
 import 'package:e_commercy/features/auth/presentation/view_model/auth_cubit/auth_cubit.dart';
 import 'package:e_commercy/features/auth/presentation/view/login_view.dart';
 import 'package:e_commercy/features/auth/presentation/view/register_view.dart';
@@ -15,21 +15,33 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 abstract class AppRouter {
-  static const kRegisterView = '/register';
-  static const kLoginView = '/login';
-  static const kHomeView = '/home';
-  static const kAddProductView = '/addProductView';
+  static const registerView = '/register';
+  static const loginView = '/login';
+  static const homeView = '/home';
+  static const addProductView = '/addProductView';
+  static const splashView = '/splashView';
+
+  static String get initialRoute {
+    if (FirebaseAuth.instance.currentUser != null) {
+      return '/';
+    } else {
+      if (CacheHelper.prefs.getBool(Strings.isGuest) == true) {
+        return homeView;
+      } else {
+        return splashView;
+      }
+    }
+  }
 
   static final router = GoRouter(
-    initialLocation:
-        FirebaseAuth.instance.currentUser != null ||
-                CacheHelper.prefs.getBool(Strings.isGuest) == true
-            ? kHomeView
-            : '/',
+    initialLocation: initialRoute,
+
     routes: [
-      GoRoute(path: '/', builder: (context, state) => SplashView()),
+      GoRoute(path: splashView, builder: (context, state) => SplashView()),
+      GoRoute(path: '/', builder: (context, state) => LoadingView()),
+
       GoRoute(
-        path: kRegisterView,
+        path: registerView,
         builder:
             (context, state) => BlocProvider(
               create: (context) => AuthCubit(),
@@ -38,7 +50,7 @@ abstract class AppRouter {
       ),
 
       GoRoute(
-        path: kLoginView,
+        path: loginView,
         builder:
             (context, state) => BlocProvider(
               create: (context) => AuthCubit(),
@@ -46,19 +58,18 @@ abstract class AppRouter {
             ),
       ),
       GoRoute(
-        path: kHomeView,
+        path: homeView,
         builder:
             (context, state) => MultiBlocProvider(
               providers: [
                 BlocProvider(create: (context) => GetAllProductsCubit()),
                 BlocProvider(create: (context) => GetNewArrivalsCubit()),
-                BlocProvider(create: (context) => GetUserInfoCubit()),
               ],
               child: HomeView(),
             ),
       ),
       GoRoute(
-        path: kAddProductView,
+        path: addProductView,
         builder:
             (context, state) => BlocProvider(
               create: (context) => AddProductCubit(),

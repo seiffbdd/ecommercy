@@ -23,7 +23,7 @@ class CustomDropdownButtonFormField extends StatelessWidget {
         color: AppColors.blackColor,
         fontWeight: FontWeight.w500,
       ),
-      dropdownColor: AppColors.kPrimaryBackgroundColor,
+      dropdownColor: AppColors.primaryBackgroundColor,
       validator:
           validator ??
           (value) {

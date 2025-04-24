@@ -3,9 +3,9 @@ import 'package:e_commercy/core/utils/app_router.dart';
 import 'package:e_commercy/core/utils/components.dart';
 import 'package:e_commercy/core/utils/constants.dart';
 import 'package:e_commercy/core/utils/styles.dart';
-import 'package:e_commercy/features/auth/presentation/view_model/auth_cubit/auth_cubit.dart';
-import 'package:e_commercy/core/widgets/auth_button.dart';
-import 'package:e_commercy/features/auth/presentation/view/widgets/center_progress_indicator_with_stack.dart';
+import 'package:e_commercy/core/widgets/main_button.dart';
+import 'package:e_commercy/core/widgets/center_progress_indicator_with_stack.dart';
+import 'package:e_commercy/features/verification/presentation/view_model/verification_cubit/verification_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,14 +30,14 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
   void initState() {
     super.initState();
     _codeController = TextEditingController();
-    context.read<AuthCubit>().sendVerificationCode(
+    context.read<VerificationCubit>().sendVerificationCode(
       recepientEmail: widget.email,
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AuthCubit, AuthState>(
+    return BlocListener<VerificationCubit, VerificationState>(
       listener: (context, state) {
         if (state is EmailVerifiedFailed) {
           Components.showSnackBar(
@@ -53,7 +53,7 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
             color: AppColors.greenColor,
           );
 
-          GoRouter.of(context).go(AppRouter.kHomeView);
+          GoRouter.of(context).go(AppRouter.homeView);
         }
         if (state is SellerVerifiedSuccess) {
           Components.showSnackBar(
@@ -123,16 +123,18 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
                         ),
                       ),
                       sizedBoxHeight30,
-                      AuthButton(
+                      MainButton(
                         buttonColor: AppColors.blueColor,
                         text: 'Verify',
                         onPressed: () {
                           if (widget.isSeller) {
-                            context.read<AuthCubit>().updateAccountToSeller(
-                              code: _codeController.text,
-                            );
+                            context
+                                .read<VerificationCubit>()
+                                .updateAccountToSeller(
+                                  code: _codeController.text,
+                                );
                           } else {
-                            context.read<AuthCubit>().verifyEmail(
+                            context.read<VerificationCubit>().verifyEmail(
                               code: _codeController.text,
                             );
                           }
@@ -157,7 +159,7 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
                 ),
               ),
             ),
-            BlocBuilder<AuthCubit, AuthState>(
+            BlocBuilder<VerificationCubit, VerificationState>(
               builder: (context, state) {
                 if (state is EmailVerifiedLoading) {
                   return CenterProgressIndicatorWithStack();

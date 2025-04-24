@@ -7,8 +7,8 @@ import 'package:e_commercy/core/utils/screen_size.dart';
 import 'package:e_commercy/core/utils/strings.dart';
 import 'package:e_commercy/core/utils/styles.dart';
 import 'package:e_commercy/features/auth/presentation/view_model/auth_cubit/auth_cubit.dart';
-import 'package:e_commercy/core/widgets/auth_button.dart';
-import 'package:e_commercy/features/auth/presentation/view/widgets/center_progress_indicator_with_stack.dart';
+import 'package:e_commercy/core/widgets/main_button.dart';
+import 'package:e_commercy/core/widgets/center_progress_indicator_with_stack.dart';
 import 'package:e_commercy/core/widgets/custom_text_form_field.dart';
 import 'package:e_commercy/features/splash/presentation/views/widgets/donnot_have_an_account_row.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +48,7 @@ class _RegisterViewState extends State<LoginView> {
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is Loginsuccess) {
-          context.go(AppRouter.kHomeView);
+          context.go('/');
           Components.showSnackBar(
             context,
             text: 'You are signed in',
@@ -148,7 +148,7 @@ class _RegisterViewState extends State<LoginView> {
                         ),
                       ),
                       sizedBoxHeight10,
-                      AuthButton(
+                      MainButton(
                         text: 'Sign In',
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
@@ -171,10 +171,10 @@ class _RegisterViewState extends State<LoginView> {
                         ],
                       ),
                       sizedBoxHeight10,
-                      AuthButton(
+                      MainButton(
                         text: 'Google',
                         width: ScreenSize.screenWidth(context) * 0.5,
-                        buttonColor: AppColors.kPrimaryBackgroundColor,
+                        buttonColor: AppColors.primaryBackgroundColor,
                         textColor: AppColors.blackColor,
                       ),
                       DonnotHaveAnAccountRow(
@@ -188,7 +188,7 @@ class _RegisterViewState extends State<LoginView> {
                             true,
                           );
                           if (!context.mounted) return;
-                          GoRouter.of(context).go(AppRouter.kHomeView);
+                          GoRouter.of(context).go(AppRouter.homeView);
                         },
                         child: Text(
                           'Continue as a guest',

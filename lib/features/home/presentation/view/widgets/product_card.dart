@@ -29,7 +29,7 @@ class ProductCard extends StatelessWidget {
       height: cardHeight ?? ScreenSize.screenHeight(context) / 4,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.0),
-        border: Border.all(color: AppColors.kPrimaryBackgroundColor),
+        border: Border.all(color: AppColors.primaryBackgroundColor),
       ),
       child: Column(
         children: [

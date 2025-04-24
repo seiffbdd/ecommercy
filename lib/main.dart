@@ -1,3 +1,4 @@
+import 'package:e_commercy/core/cubits/get_user_info_cubit/get_user_info_cubit.dart';
 import 'package:e_commercy/core/utils/app_colors.dart';
 import 'package:e_commercy/core/utils/app_router.dart';
 import 'package:e_commercy/core/utils/cache_helper.dart';
@@ -26,16 +27,19 @@ class Ecommercy extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-      routerConfig: AppRouter.router,
-      theme: ThemeData.light().copyWith(
-        scaffoldBackgroundColor: AppColors.kPrimaryBackgroundColor,
-        appBarTheme: AppBarTheme(
-          backgroundColor: AppColors.whiteColor,
-          centerTitle: true,
-          titleTextStyle: Styles.textStyle25.copyWith(
-            color: AppColors.blackColor,
+    return BlocProvider(
+      create: (context) => GetUserInfoCubit(),
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        routerConfig: AppRouter.router,
+        theme: ThemeData.light().copyWith(
+          scaffoldBackgroundColor: AppColors.primaryBackgroundColor,
+          appBarTheme: AppBarTheme(
+            backgroundColor: AppColors.whiteColor,
+            centerTitle: true,
+            titleTextStyle: Styles.textStyle25.copyWith(
+              color: AppColors.blackColor,
+            ),
           ),
         ),
       ),

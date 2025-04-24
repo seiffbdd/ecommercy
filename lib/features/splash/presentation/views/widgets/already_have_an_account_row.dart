@@ -21,7 +21,7 @@ class AlreayHaveAnAccountRow extends StatelessWidget {
         ),
         TextButton(
           onPressed: () {
-            GoRouter.of(context).pushReplacement(AppRouter.kLoginView);
+            GoRouter.of(context).pushReplacement(AppRouter.loginView);
           },
           child: Text(
             'Login',

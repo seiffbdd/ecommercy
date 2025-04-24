@@ -6,9 +6,9 @@ import 'package:e_commercy/core/utils/constants.dart';
 import 'package:e_commercy/core/utils/screen_size.dart';
 import 'package:e_commercy/core/utils/strings.dart';
 import 'package:e_commercy/core/utils/styles.dart';
-import 'package:e_commercy/features/auth/presentation/view_model/auth_cubit/auth_cubit.dart';
-import 'package:e_commercy/features/auth/presentation/view/verify_email_view.dart';
-import 'package:e_commercy/core/widgets/auth_button.dart';
+import 'package:e_commercy/features/verification/presentation/view/verify_email_view.dart';
+import 'package:e_commercy/core/widgets/main_button.dart';
+import 'package:e_commercy/features/verification/presentation/view_model/verification_cubit/verification_cubit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,14 +28,17 @@ class CustomDrawer extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             sizedBoxHeight30,
-            Text('Hello profile name', style: Styles.textStyle25),
+            Text(
+              'Hello ${context.read<GetUserInfoCubit>().userModel?.name ?? 'Guest'}',
+              style: Styles.textStyle25,
+            ),
             sizedBoxHeight20,
             Divider(),
             sizedBoxHeight10,
             if (context.read<GetUserInfoCubit>().userModel != null &&
                 context.read<GetUserInfoCubit>().userModel!.role ==
                     Strings.buyer)
-              AuthButton(
+              MainButton(
                 text: 'Start Selling',
                 textStyle: Styles.textStyle16.copyWith(
                   color: AppColors.whiteColor,
@@ -45,7 +48,7 @@ class CustomDrawer extends StatelessWidget {
                     MaterialPageRoute(
                       builder:
                           (context) => BlocProvider(
-                            create: (context) => AuthCubit(),
+                            create: (context) => VerificationCubit(),
                             child: VerifyEmailView(
                               email: FirebaseAuth.instance.currentUser!.email!,
                               isSeller: true,
@@ -58,19 +61,19 @@ class CustomDrawer extends StatelessWidget {
             if (context.read<GetUserInfoCubit>().userModel != null &&
                 context.read<GetUserInfoCubit>().userModel!.role ==
                     Strings.seller)
-              AuthButton(
+              MainButton(
                 text: 'Add Product',
                 textStyle: Styles.textStyle16.copyWith(
                   color: AppColors.whiteColor,
                 ),
                 onPressed: () {
-                  context.push(AppRouter.kAddProductView);
+                  context.push(AppRouter.addProductView);
                 },
               ),
 
             sizedBoxHeight20,
             if (FirebaseAuth.instance.currentUser != null)
-              AuthButton(
+              MainButton(
                 buttonColor: AppColors.whiteColor,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -88,8 +91,10 @@ class CustomDrawer extends StatelessWidget {
                     okButtonText: 'Logout',
                     onPressedOkButton: () async {
                       await FirebaseAuth.instance.signOut();
+
                       if (!context.mounted) return;
-                      context.go(AppRouter.kLoginView);
+                      context.read<GetUserInfoCubit>().userModel = null;
+                      context.go(AppRouter.loginView);
                     },
                     onPressedCancelButton: () {
                       context.pop();

@@ -7,11 +7,12 @@ import 'package:e_commercy/core/utils/screen_size.dart';
 import 'package:e_commercy/core/utils/strings.dart';
 import 'package:e_commercy/core/utils/styles.dart';
 import 'package:e_commercy/features/auth/presentation/view_model/auth_cubit/auth_cubit.dart';
-import 'package:e_commercy/features/auth/presentation/view/verify_email_view.dart';
-import 'package:e_commercy/core/widgets/auth_button.dart';
-import 'package:e_commercy/features/auth/presentation/view/widgets/center_progress_indicator_with_stack.dart';
+import 'package:e_commercy/features/verification/presentation/view/verify_email_view.dart';
+import 'package:e_commercy/core/widgets/main_button.dart';
+import 'package:e_commercy/core/widgets/center_progress_indicator_with_stack.dart';
 import 'package:e_commercy/core/widgets/custom_text_form_field.dart';
 import 'package:e_commercy/features/splash/presentation/views/widgets/already_have_an_account_row.dart';
+import 'package:e_commercy/features/verification/presentation/view_model/verification_cubit/verification_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -61,8 +62,8 @@ class _RegisterViewState extends State<RegisterView> {
           Navigator.of(context).push(
             MaterialPageRoute(
               builder:
-                  (context) => BlocProvider.value(
-                    value: authCubit,
+                  (context) => BlocProvider(
+                    create: (context) => VerificationCubit(),
                     child: VerifyEmailView(email: _emailController.text),
                   ),
             ),
@@ -165,7 +166,7 @@ class _RegisterViewState extends State<RegisterView> {
                         },
                       ),
                       sizedBoxHeight30,
-                      AuthButton(
+                      MainButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             authCubit.signup(
@@ -189,10 +190,10 @@ class _RegisterViewState extends State<RegisterView> {
                         ],
                       ),
                       sizedBoxHeight10,
-                      AuthButton(
+                      MainButton(
                         text: 'Google',
                         width: ScreenSize.screenWidth(context) * 0.5,
-                        buttonColor: AppColors.kPrimaryBackgroundColor,
+                        buttonColor: AppColors.primaryBackgroundColor,
                         textColor: AppColors.blackColor,
                       ),
                       AlreayHaveAnAccountRow(

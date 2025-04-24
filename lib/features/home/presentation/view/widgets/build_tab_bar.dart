@@ -19,7 +19,7 @@ class BuildTabBar extends StatelessWidget {
       controller: tabController,
       padding: EdgeInsets.only(bottom: 12.0),
       indicatorPadding: EdgeInsets.symmetric(horizontal: -12.0),
-      dividerColor: AppColors.kPrimaryBackgroundColor,
+      dividerColor: AppColors.primaryBackgroundColor,
       dividerHeight: 10.0,
       isScrollable: true,
       indicator: BoxDecoration(

@@ -3,9 +3,9 @@ import 'package:e_commercy/core/utils/app_colors.dart';
 import 'package:e_commercy/core/utils/components.dart';
 import 'package:e_commercy/core/utils/constants.dart';
 import 'package:e_commercy/core/utils/screen_size.dart';
-import 'package:e_commercy/core/widgets/auth_button.dart';
+import 'package:e_commercy/core/widgets/main_button.dart';
 import 'package:e_commercy/core/widgets/custom_text_form_field.dart';
-import 'package:e_commercy/features/auth/presentation/view/widgets/center_progress_indicator_with_stack.dart';
+import 'package:e_commercy/core/widgets/center_progress_indicator_with_stack.dart';
 import 'package:e_commercy/features/seller/presentation/view/widgets/custom_dropdown_button_form_field.dart';
 import 'package:e_commercy/features/seller/presentation/view_model/add_product_cubit/add_product_cubit.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +50,7 @@ class _AddProductsViewState extends State<AddProductsView> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add new Product'),
-        backgroundColor: AppColors.kPrimaryBackgroundColor,
+        backgroundColor: AppColors.primaryBackgroundColor,
       ),
       body: BlocListener<AddProductCubit, AddProductState>(
         listener: (context, state) {
@@ -139,7 +139,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                       ),
                       sizedBoxHeight30,
 
-                      AuthButton(
+                      MainButton(
                         text: 'Add Product',
                         onPressed: () {
                           if (_formKey.currentState!.validate() &&

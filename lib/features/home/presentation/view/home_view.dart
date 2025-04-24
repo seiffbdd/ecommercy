@@ -27,11 +27,7 @@ class _HomeViewState extends State<HomeView>
   @override
   void initState() {
     super.initState();
-    if (FirebaseAuth.instance.currentUser != null) {
-      context.read<GetUserInfoCubit>().saveUserInfo(
-        userId: FirebaseAuth.instance.currentUser!.uid,
-      );
-    }
+
     _tabController = TabController(
       length: GetAllProductsCubit.tabs.length,
       vsync: this,
@@ -79,7 +75,10 @@ class _HomeViewState extends State<HomeView>
           ),
         ],
       ),
-      drawer: FirebaseAuth.instance.currentUser == null ? null : CustomDrawer(),
+      drawer:
+          context.read<GetUserInfoCubit>().userModel == null
+              ? null
+              : CustomDrawer(),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

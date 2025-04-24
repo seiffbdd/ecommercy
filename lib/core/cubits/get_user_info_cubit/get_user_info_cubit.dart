@@ -13,20 +13,26 @@ class GetUserInfoCubit extends Cubit<GetUserInfoState> {
 
   UserModel? userModel;
 
-  Future<void> saveUserInfo({required String userId}) async {
+  Future<void> saveUserInfo() async {
     emit(GetUserInfoLoading());
     try {
-      final QuerySnapshot<Map<String, dynamic>> response =
-          await getIt
-              .get<FirebaseFirestore>()
-              .collection(Strings.usersCollection)
-              .where(
-                'email',
-                isEqualTo: FirebaseAuth.instance.currentUser!.email,
-              )
-              .get();
-      userModel = UserModel.fromJson(response.docs.first.data());
-      emit(GetUserInfoSuccess());
+      QuerySnapshot<Map<String, dynamic>>? response;
+      if (FirebaseAuth.instance.currentUser != null) {
+        response =
+            await getIt
+                .get<FirebaseFirestore>()
+                .collection(Strings.usersCollection)
+                .where(
+                  'email',
+                  isEqualTo: FirebaseAuth.instance.currentUser!.email,
+                )
+                .get();
+        userModel = UserModel.fromJson(response.docs.first.data());
+        emit(GetUserInfoSuccess());
+      } else {
+        debugPrint('User not logged in');
+        emit(GetUserInfoFailed(errMessage: 'User not found'));
+      }
     } catch (e) {
       debugPrint('Error fetching user info: $e');
       emit(GetUserInfoFailed(errMessage: e.toString()));

@@ -58,7 +58,7 @@ class _BuildCustomScrollViewState extends State<BuildCustomScrollView> {
         ),
         SliverToBoxAdapter(
           child: Divider(
-            color: AppColors.kPrimaryBackgroundColor,
+            color: AppColors.primaryBackgroundColor,
             thickness: 10.0,
           ),
         ),

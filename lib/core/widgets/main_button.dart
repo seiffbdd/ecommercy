@@ -3,8 +3,8 @@ import 'package:e_commercy/core/utils/screen_size.dart';
 import 'package:e_commercy/core/utils/styles.dart';
 import 'package:flutter/material.dart';
 
-class AuthButton extends StatelessWidget {
-  const AuthButton({
+class MainButton extends StatelessWidget {
+  const MainButton({
     super.key,
     this.text,
     this.textStyle,

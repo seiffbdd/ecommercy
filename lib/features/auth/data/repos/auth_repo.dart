@@ -7,14 +7,5 @@ abstract class AuthRepo {
     required String password,
   });
 
-  Future sendVerificationCode({
-    required String recepientEmail,
-    String? recepientName,
-    required String verificationCode,
-  });
-
   Future<Either> login({required String email, required String password});
-
-  Future<void> verifyEmail();
-  Future<void> updateAccountToSeller();
 }

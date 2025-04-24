@@ -21,7 +21,7 @@ class DonnotHaveAnAccountRow extends StatelessWidget {
         ),
         TextButton(
           onPressed: () {
-            GoRouter.of(context).pushReplacement(AppRouter.kRegisterView);
+            GoRouter.of(context).pushReplacement(AppRouter.registerView);
           },
           child: Text(
             'Sign Up',

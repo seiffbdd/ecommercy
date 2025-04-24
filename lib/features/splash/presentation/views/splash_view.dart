@@ -37,7 +37,7 @@ class SplashView extends StatelessWidget {
               RoundedButton(
                 text: 'Get Started',
                 onPressed: () {
-                  GoRouter.of(context).pushReplacement(AppRouter.kRegisterView);
+                  GoRouter.of(context).pushReplacement(AppRouter.registerView);
                 },
               ),
               sizedBoxHeight20,
